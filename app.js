@@ -28,16 +28,28 @@ app.set("view engine", "ejs");
 app.engine("ejs", ejsMate);
 app.set("views", path.join(__dirname, "views"));
 app.use(express.urlencoded({ extended: true }));
-
-main().then(() => { console.log("MongoDB connected!!") })
-      .catch(err => console.log(err));
+console.log("hi--")
 async function main() {
-    await mongoose.connect(process.env.ATLASDB_URL);
+    const connectionString = "mongodb+srv://shruti23022004:OLCFzr8GG5Ok1JUc@cluster0.byowpix.mongodb.net/myDatabaseName?retryWrites=true&w=majority";
+
+    try {
+        console.log("Attempting MongoDB connection...");
+        await mongoose.connect(connectionString);
+        console.log("MongoDB connected successfully!");
+    } catch (err) {
+        console.error("Failed to connect to MongoDB:", err.message);
+        console.error("Stack Trace:", err.stack);
+        process.exit(1); // Exit if the connection fails
+    }
 }
+
+main();
+
+
 const store = MongoStore.create({
-    mongoUrl:process.env.ATLASDB_URL,
+    mongoUrl:"mongodb+srv://shruti23022004:OLCFzr8GG5Ok1JUc@cluster0.byowpix.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0",
     crypto:{
-        secret: process.env.SECRET,
+        secret: "ui4ihjriendkewndwj",
     },
     touchAfter: 24*3600,
 })
@@ -47,7 +59,7 @@ store.on('error', (error) => {
 });
 const sessionOptions = {
     store,
-    secret: process.env.SECRET,
+    secret: "ui4ihjriendkewndwj",
     resave: false,
     saveUninitialized: true,
     cookie: {

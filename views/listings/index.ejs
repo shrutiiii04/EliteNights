@@ -4,9 +4,9 @@
     <div class="container">
         <div class="row">
             <div class="col-12 mb-4">
-                <form action="/listings/new" method="get">
+                <!-- <form action="/listings/new" method="get">
                     <button class="btn btn-success">NEW LISTING</button>
-                </form>
+                </form> -->
             </div>
         </div>
         <div class="row">
@@ -16,7 +16,7 @@
                     <img src="<%= list.image.url %>" class="card-img-top" alt="Listing Image">
                     <div class="card-body">
                         <h5 class="card-title"><%= list.title %></h5>
-                        <p class="card-text">&#8377; <%= list.price.toLocaleString("en-IN") %> /night</p>
+                        <p class="card-text">&#8377; <%= list.price.toLocaleString("en-IN") %></p>
                         <a href="/listings/<%= list._id %>" class="btn btn-primary">View Details</a>
                     </div>
                 </div>

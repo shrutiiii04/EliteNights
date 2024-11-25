@@ -12,7 +12,7 @@ module.exports.renderSignUpForm = (req,res)=>{
        const registeredUser = await User.register(newUser, password);
        req.login(registeredUser,(error)=>{
           if(error){return next(error);}
-          req.flash("success","Welcome to EliteNights");
+          req.flash("success","Welcome to Supportify");
           res.redirect("/listings");
        })
        
@@ -25,7 +25,7 @@ module.exports.renderSignUpForm = (req,res)=>{
     res.render("users/login.ejs");
  }
  module.exports.loginUser = (req,res)=>{
-    req.flash("success","Welcome back to EliteNights!");
+    req.flash("success","Welcome back to Supportify!");
     let redirectUrl = res.locals.redirectUrl || "/listings";
     res.redirect(redirectUrl);
  }

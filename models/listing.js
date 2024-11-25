@@ -4,40 +4,51 @@ const User = require("./user");
 const Schema = mongoose.Schema;
 
 const listingSchema = new Schema({
-    title:{
+    title: {
         type: String,
         required: true
     },
-    description:{
-        type:String,
+    description: {
+        type: String,
     },
-    image:{
-        // type: String,
-        // default:"https://t3.ftcdn.net/jpg/00/29/13/38/360_F_29133877_bfA2n7cWV53fto2BomyZ6pyRujJTBwjd.jpg",
-        // set: (v)=> v===""?"https://t3.ftcdn.net/jpg/00/29/13/38/360_F_29133877_bfA2n7cWV53fto2BomyZ6pyRujJTBwjd.jpg":v,
+    image: {
         url: String,
         filename: String,
     },
-    price:Number,
+    price: Number,
     location: {
         type: String,
         required: true
     },
     country: String,
-    reviews:[{
+    reviews: [{
         type: Schema.Types.ObjectId,
         ref: "Review",
     }],
-    owner:{
+    owner: {
         type: Schema.Types.ObjectId,
         ref: "User",
+    },
+    // New field for contact details
+    contactDetails: {
+        email: {
+            type: String,
+            required: true,  // Set this to true if you want it to be mandatory
+            match: [/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/, "Please enter a valid email address."]
+        },
+        phone: {
+            type: String,
+            required: true,  // Optional, depending on your requirements
+            match: [/^\d{10}$/, "Please enter a valid 10-digit phone number."]
+        }
     }
 });
-listingSchema.post("findOneAndDelete",async(listing)=>{
-    if(listing){
-        await Review.deleteMany({_id:{$in: listing.reviews}});
-    }
-})
 
-const Listing = mongoose.model("Listing",listingSchema);
+listingSchema.post("findOneAndDelete", async (listing) => {
+    if (listing) {
+        await Review.deleteMany({ _id: { $in: listing.reviews } });
+    }
+});
+
+const Listing = mongoose.model("Listing", listingSchema);
 module.exports = Listing;
